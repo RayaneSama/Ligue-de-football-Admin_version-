@@ -15,11 +15,11 @@ Please note that there is a minor issue with the modification functionality, and
 1. Clone the repository to your local machine.
    ```bash
    git clone https://github.com/RayaneSama/Ligue-de-football-Admin_version-.git
-2. Install dependencies: 
-```bash
-  npm install
-3. Start the server.
-4. Access the admin panel in your web browser by navigating to http://localhost:PORT, where PORT is the port number configured for the server.
+2. Install dependencies.
+      ```bash
+      npm install
+4. Start the server.
+5. Access the admin panel in your web browser by navigating to http://localhost:PORT, where PORT is the port number configured for the server.
 ## Issues
 - The modification functionality has a minor issue that needs to be addressed.
 - The search feature is not implemented yet.
