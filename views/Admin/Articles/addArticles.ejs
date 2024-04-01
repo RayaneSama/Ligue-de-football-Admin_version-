@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ajouter un Gestionnaire</title>
+    <title>Ajouter un Article</title>
   </head>
 
   <body>
     <div
       class="d-flex justify-content-between flex-wrap flex-md nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
     >
-      <h1 class="h2">Ajouter un Gestionnaire</h1>
+      <h1 class="h2">Ajouter un Article</h1>
       <div class="btn-toolbar mb-2 mb-md 0">
         <div class="btn-group me-2">
           <button class="btn btn-outline-primary">
@@ -25,24 +25,24 @@
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="/Admin">Acceuil</a></li>
-              <li class="breadcrumb-item active">Nouveau Gestionnaire</li>
+              <li class="breadcrumb-item active">Nouveau Article</li>
             </ol>
           </nav>
         </div>
       </div>
     </div>
     <form
-      action="/ajouter_gestionnaire"
+      action="/ajouter_Articles"
       method="POST"
       class="needs-validation"
       novalidate
     >
       <div>
-        <label for="validationCustom01" class="form-label">Nom</label>
+        <label for="validationCustom01" class="form-label">Titre</label>
         <input
           type="text"
           class="form-control"
-          name="nom"
+          name="titre"
           id="validationCustom01"
           value=""
           required
@@ -50,24 +50,22 @@
         <div class="valid-feedback"></div>
       </div>
       <div>
-        <label for="validationCustom02" class="form-label">Prenom</label>
-        <input
-          type="text"
+        <label for="validationCustom02" class="form-label">Description</label>
+        <textarea
           class="form-control"
-          name="prenom"
+          name="description"
           id="validationCustom02"
-          value=""
           required
-        />
+        ></textarea>
         <div class="valid-feedback"></div>
       </div>
+
       <div>
-        <label for="validationCustom01" class="form-label">Age</label>
+        <label for="validationCustom01" class="form-label">Format</label>
         <input
           type="text"
           class="form-control"
-          name="age"
-          pattern="[0-9]{2}"
+          name="format"
           id="validationCustom01"
           value=""
           required
@@ -75,44 +73,28 @@
         <div class="valid-feedback"></div>
       </div>
       <div>
-        <div class="valid-feedback"></div>
-        <div
-          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-primary"
-        >
-          <h1 class="h2">Compte du Gestionnaire</h1>
-        </div>
-
+        <label for="validationCustom01" class="form-label">Date</label>
+        <input
+          type="text"
+          class="form-control"
+          name="date"
+          id="validationCustom01"
+          value=""
+          required
+        />
         <div>
-          <label for="validationCustom01" class="form-label">E-mail</label>
+          <label for="validationCustom01" class="form-label">Auteur</label>
           <input
-            type="email"
+            type="text"
             class="form-control"
-            name="email"
+            name="auteur"
+            id="validationCustom01"
             value=""
             required
           />
           <div class="valid-feedback"></div>
         </div>
-        <div>
-          <label for="validationCustom01" class="form-label"
-            >Mot de passe
-          </label>
-          <div class="input-group">
-            <input
-              type="password"
-              class="form-control"
-              name="motdepasse"
-              id="password"
-              value=""
-              required
-            />
-            <span class="input-group-text"
-              ><i id="icon" class="bi bi-eye-fill"></i
-            ></span>
-          </div>
-
-          <div class="valid-feedback"></div>
-        </div>
+        <div class="valid-feedback"></div>
       </div>
       <div>
         <button class="btn btn-primary mt-3" type="submit">Ajouter</button>

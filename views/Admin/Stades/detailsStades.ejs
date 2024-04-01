@@ -1,7 +1,7 @@
 <div
   class="d-flex justify-content-between flex-wrap flex-md nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
 >
-  <h1 class="h2"><%= result[0].nom%> <%= result[0].prenom %></h1>
+  <h1 class="h2"><%= result[0].nom_std%></h1>
 </div>
 
 <div class="col py-3">
@@ -10,9 +10,7 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-          <li class="breadcrumb-item active">
-            <%= result[0].nom + ' ' + result[0].prenom %>
-          </li>
+          <li class="breadcrumb-item active"><%= result[0].nom_std %></li>
         </ol>
       </nav>
     </div>
@@ -23,26 +21,26 @@
   <li class="list-group-item">
     <div class="row">
       <div class="col" style="max-width: 140px"><b>Nom:</b></div>
-      <div class="col"><%= result[0].nom %></div>
+      <div class="col"><%= result[0].nom_std %></div>
     </div>
   </li>
 
   <li class="list-group-item">
     <div class="row">
-      <div class="col" style="max-width: 140px"><b>Prenom:</b></div>
-      <div class="col"><%= result[0].prenom %></div>
+      <div class="col" style="max-width: 140px"><b>Ville:</b></div>
+      <div class="col"><%= result[0].ville_std %></div>
     </div>
   </li>
   <li class="list-group-item">
     <div class="row">
-      <div class="col" style="max-width: 140px"><b>Age:</b></div>
-      <div class="col"><%= result[0].age %></div>
+      <div class="col" style="max-width: 140px"><b>Capacite:</b></div>
+      <div class="col"><%= result[0].capacite_std %></div>
     </div>
   </li>
   <li class="list-group-item">
     <div class="row">
-      <div class="col" style="max-width: 140px"><b>Email:</b></div>
-      <div class="col"><%= result[0].email_co %></div>
+      <div class="col" style="max-width: 140px"><b>Date de création:</b></div>
+      <div class="col"><%= result[0].date_crt %></div>
     </div>
   </li>
 </ul>

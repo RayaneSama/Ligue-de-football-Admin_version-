@@ -1,11 +1,11 @@
 <div
   class="d-flex justify-content-between flex-wrap flex-md nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
 >
-  <h1 class="h2">Accueil Gestionnaire</h1>
+  <h1 class="h2">Accueil des Stades</h1>
   <div class="btn-toolbar mb-2 mb-md 0">
     <div class="btn-group me-2">
-      <a href="/ajouter_gestionnaire" class="btn btn-outline-primary"
-        >+ Ajouter un Gestionnaire
+      <a href="/ajouter_stades" class="btn btn-outline-primary"
+        >+ Ajouter un Stade
       </a>
     </div>
   </div>
@@ -29,7 +29,7 @@
       <tr>
         <th scope="col">ID</th>
         <th scope="col">Nom</th>
-        <th scope="col">Prenom</th>
+        <th scope="col">ville</th>
         <th scope="col" class="text-end">Gerer</th>
       </tr>
     </thead>
@@ -37,13 +37,13 @@
     <tbody>
       <% result.forEach(element=> { %>
       <tr class="align-middle">
-        <td><%= element.id_ge%></td>
-        <td><%= element.nom%></td>
-        <td><%= element.prenom%></td>
+        <td><%= element.id_std%></td>
+        <td><%= element.nom_std%></td>
+        <td><%= element.ville_std%></td>
         <td class="text-end">
           <div class="d-flex flex-row justify-content-end gap-2">
             <a
-              href="/detailGestio/<%= element.id_ge %>"
+              href="/detailsStades/<%= element.id_std %>"
               type="button"
               class="btn btn-primary btn-small"
             >
@@ -51,7 +51,7 @@
             </a>
 
             <a
-              href="/edit/<%= element.id_ge%>"
+              href="/editStades/<%= element.id_std%>"
               type="button"
               class="btn btn-warning btn-small"
             >
@@ -59,7 +59,7 @@
             </a>
 
             <form
-              action="/supprimer/<%= element.id_ge %>?_method=DELETE"
+              action="/supprimerStades/<%= element.id_std %>?_method=DELETE"
               method="POST"
               class="position-relative"
             >

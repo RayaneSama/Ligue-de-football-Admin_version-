@@ -1,11 +1,11 @@
 <div
   class="d-flex justify-content-between flex-wrap flex-md nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
 >
-  <h1 class="h2">Accueil Gestionnaire</h1>
+  <h1 class="h2">Accueil Arbitres</h1>
   <div class="btn-toolbar mb-2 mb-md 0">
     <div class="btn-group me-2">
-      <a href="/ajouter_gestionnaire" class="btn btn-outline-primary"
-        >+ Ajouter un Gestionnaire
+      <a href="/ajouter_arbitres" class="btn btn-outline-primary"
+        >+ Ajouter un arbitre
       </a>
     </div>
   </div>
@@ -37,13 +37,13 @@
     <tbody>
       <% result.forEach(element=> { %>
       <tr class="align-middle">
-        <td><%= element.id_ge%></td>
-        <td><%= element.nom%></td>
-        <td><%= element.prenom%></td>
+        <td><%= element.id_ar%></td>
+        <td><%= element.nom_ar%></td>
+        <td><%= element.prenom_ar%></td>
         <td class="text-end">
           <div class="d-flex flex-row justify-content-end gap-2">
             <a
-              href="/detailGestio/<%= element.id_ge %>"
+              href="/detailsArbitres/<%= element.id_ar %>"
               type="button"
               class="btn btn-primary btn-small"
             >
@@ -51,7 +51,7 @@
             </a>
 
             <a
-              href="/edit/<%= element.id_ge%>"
+              href="/editArbitre/<%= element.id_ar%>"
               type="button"
               class="btn btn-warning btn-small"
             >
@@ -59,7 +59,7 @@
             </a>
 
             <form
-              action="/supprimer/<%= element.id_ge %>?_method=DELETE"
+              action="/supprimerArbitres/<%= element.id_ar %>?_method=DELETE"
               method="POST"
               class="position-relative"
             >
