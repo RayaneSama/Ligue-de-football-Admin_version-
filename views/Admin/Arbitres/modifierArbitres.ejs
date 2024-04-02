@@ -24,25 +24,25 @@
 </div>
 
 
-<form action="/edit/<%= result[0].id_ar %>?_method=PUT" method="POST">
+<form action="/editArbitres/<%= result[0].id_ar %>?_method=PUT" method="POST">
 
     <div class="row form-group mb-4">
         <div>
             <label for="validationCustom01" class="form-label">Nom</label>
-            <input type="text" class="form-control" name="nom" id="validationCustom01" value="<%= result[0].nom_ar %>"
-                required>
+            <input type="text" class="form-control" name="nom_ar" id="validationCustom01"
+                value="<%= result[0].nom_ar %>" required>
             <div class="valid-feedback"></div>
         </div>
         <div>
             <label for="validationCustom02" class="form-label">Prenom</label>
-            <input type="text" class="form-control" name="prenom" id="validationCustom02" value="<%= result[0].prenom_ar%>"
-                required>
+            <input type="text" class="form-control" name="prenom_ar" id="validationCustom02"
+                value="<%= result[0].prenom_ar%>" required>
             <div class="valid-feedback"></div>
         </div>
         <div>
             <label for="validationCustom02" class="form-label">Poste</label>
-            <input type="text" class="form-control" name="poste" id="validationCustom02" value="<%= result[0].poste_ar%>"
-                required>
+            <input type="text" class="form-control" name="poste_ar" id="validationCustom02"
+                value="<%= result[0].poste_ar%>" required>
             <div class="valid-feedback"></div>
         </div>
         <div>
@@ -53,13 +53,13 @@
 
             <div>
                 <label for="validationCustom01" class="form-label">E-mail</label>
-                <input type="email" class="form-control" name="email" value="<%= result[0].email_co %>" required>
+                <input type="email" class="form-control" name="email_ar" value="<%= result[0].email_co %>" required>
                 <div class="valid-feedback"></div>
             </div>
             <div>
                 <label for="validationCustom01" class="form-label">Mot de passe </label>
                 <div class="input-group">
-                    <input type="password" class="form-control" name="motdepasse" id="password"
+                    <input type="password" class="form-control" name="motdepasse_ar" id="password"
                         value="<%= result[0].mot_de_passe %>" required>
                     <span class="input-group-text"><i id="icon" class="bi bi-eye-fill "></i></span>
                 </div>
@@ -98,7 +98,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                <form action="/supprimerArbitres/<%= result[0].id_ar %>?_method=DELETE" method="POST" class="position-relative">
+                <form action="/supprimerArbitres/<%= result[0].id_ar %>?_method=DELETE" method="POST"
+                    class="position-relative">
                     <button type="submit" class="btn btn-danger">Oui, Supprimer arbitre</button>
                 </form>
             </div>

@@ -410,64 +410,42 @@ exports.postArbitres = async (req, res) => {
 };
 // put edit arbitre
 exports.editpostArbitres = async (req, res) => {
-  ArbitreId = req.params.id;
-  userId = req.params.idadmin;
-  const newArbitre = new Arbitre({
-    nom: req.body.nom_ar,
-    prenom: req.body.prenom_ar,
-    poste: req.body.poste_ar,
-    email: req.body.email,
-    motdepasse: req.body.motdepasse,
-  });
-  db.query(
-    "UPDATE compte JOIN arbitre ON compte.id_co = arbitre.id_co_ar SET compte.id_type=?, compte.nom_utilisateur=?, compte.mot_de_passe=?, compte.email_co=? WHERE arbitre.id_ar=?",
-    [
-      4,
-      newArbitre.nom + " " + newArbitre.prenom,
-      newArbitre.motdepasse,
-      newArbitre.email,
-      req.params.id,
-    ],
-    (err, result) => {
-      if (err) {
-        console.error("erreur creer compte " + err);
-        return res.status(500).send("erreur sql ajouter compte d'arbitre");
-      }
-      db.query(
-        "SELECT id_co FROM compte WHERE email_co =? ",
-        [newArbitre.email],
-        (err, resultid) => {
-          if (err) {
-            console.error("erreur avoir id  compte " + err);
-            return res.status(500).send("erreur sql avoir id compte d'arbitre");
-          }
-          db.query(
-            "UPDATE arbitre SET nom_ar=?, prenom_ar=?, poste_ar=?,id_co_ar=? WHERE id_ar=?",
-            [
-              newArbitre.nom_ar,
-              newArbitre.prenom_ar,
-              newArbitre.poste_ar,
-              resultid[0].id_co,
-              ArbitreId,
-            ],
-            (err, result) => {
-              if (err) {
-                console.error("erreur creer arbitre" + err);
-                return res.status(500).send("erreur sql ajouter arbitre");
-              }
+  
+  
 
-              // console.log("arbitre modifie")
-              //  console.log("compte modifier")
-            }
-          );
-        }
-      );
+
+
+// console.log(req.params.id);
+
+  db.query("UPDATE arbitre SET nom_ar =?,prenom_ar =? WHERE id_ar=?",[req.body.nom_ar,req.body.prenom_ar,req.params.id],(err, result) => {
+    if (err) {
+      console.error("erreur update arbitre" + err);
+      return res.status(500).send("erreur sql update arbitre");
     }
-  );
-
+    db.query("SELECT id_co_ar FROM arbitre WHERE id_ar=? ",[req.params.id],(err,residcoar)=>{
+      if(err){
+        console.error("erreur update arbitre" + err);
+        return res.status(500).send("erreur sql update arbitre");
+      }
+      // console.log(residcoar);
+        db.query("UPDATE compte SET nom_utilisateur=?,mot_de_passe=?,email_co=? WHERE id_co=?",[req.body.nom_ar+""+req.body.prenom_ar,req.body.motdepasse_ar,req.body.email_ar,residcoar[0].id_co_ar],(err,resultcompte)=>{
+          if(err){
+            console.error("erreur update arbitre" + err);
+            return res.status(500).send("erreur sql update arbitre");
+          }
+        })
+        
+      
+    })
+    
+    
+    
+  })
+  
+ 
   await req.flash("info", "Arbitre Modifié !!");
 
-  res.redirect(`/gererArbitres/${userId}`);
+  res.redirect(`/gererArbitres/`);
 };
 exports.supprimerArbitres = async (req, res) => {
   db.query(

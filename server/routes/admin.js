@@ -34,7 +34,7 @@ router.get("/detailsArbitres/:id", requireAuth, adminController.viewArbitres);
 router.get("/editArbitre/:id", requireAuth, adminController.editArbitre);
 router.get("/ajouter_arbitres", requireAuth, adminController.addArbitres);
 router.post("/ajouter_arbitres", requireAuth, adminController.postArbitres);
-router.put("/edit/:id/:idadmin", requireAuth, adminController.editpostArbitres);
+router.put("/editArbitres/:id", requireAuth, adminController.editpostArbitres);
 router.delete(
   "/supprimerArbitres/:id",
   requireAuth,
