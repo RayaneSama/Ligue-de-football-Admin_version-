@@ -5,8 +5,8 @@ const bdd = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "testpfe",
-  port: 3307,
+  database: "bdd_pfe",
+  port: 3306,
 });
 
 bdd.connect((err) => {

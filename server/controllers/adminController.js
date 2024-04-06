@@ -184,58 +184,38 @@ exports.editGestionnaire = async (req, res) => {
 };
 // put edit gestionnaire
 exports.editpostGestio = async (req, res) => {
-  GestionnaireId = req.params.id;
-  userId = req.params.idadmin;
-  const newGestionnaire = new Gestionnaire({
-    nom: req.body.nom,
-    prenom: req.body.prenom,
-    age: req.body.age,
-    email: req.body.email,
-    motdepasse: req.body.motdepasse,
-  });
+  //console.log(req.params.id);
+
   db.query(
-    "UPDATE compte JOIN `gestionnaire de club` ON compte.id_co = `gestionnaire de club`.id_co_ge SET compte.id_type=?, compte.nom_utilisateur=?, compte.mot_de_passe=?, compte.email_co=? WHERE `gestionnaire de club`.id_ge=?",
-    [
-      2,
-      newGestionnaire.nom + " " + newGestionnaire.prenom,
-      newGestionnaire.motdepasse,
-      newGestionnaire.email,
-      req.params.id,
-    ],
+    "UPDATE `gestionnaire de club` SET nom =?,prenom =?,age=? WHERE id_ge=?",
+    [req.body.nom_ge, req.body.prenom_ge, req.body.age_ge, req.params.id],
     (err, result) => {
       if (err) {
-        console.error("erreur creer compte " + err);
-        return res
-          .status(500)
-          .send("erreur sql ajouter compte du gestionnaire");
+        console.error("erreur update gestionnaire" + err);
+        return res.status(500).send("erreur sql update gestionnaire");
       }
       db.query(
-        "SELECT id_co FROM compte WHERE email_co =? ",
-        [newGestionnaire.email],
-        (err, resultid) => {
+        "SELECT id_co_ge FROM `gestionnaire de club` WHERE id_ge=? ",
+        [req.params.id],
+        (err, residcoge) => {
           if (err) {
-            console.error("erreur avoir id  compte " + err);
-            return res
-              .status(500)
-              .send("erreur sql avoir id compte du gestionnaire");
+            console.error("erreur update gestionnaire" + err);
+            return res.status(500).send("erreur sql update gestionnaire");
           }
+          //console.log(residcoge);
           db.query(
-            "UPDATE `gestionnaire de club` SET nom=?, prenom=?,age=?,id_co_ge=? WHERE id_ge=?",
+            "UPDATE compte SET nom_utilisateur=?,mot_de_passe=?,email_co=? WHERE id_co=?",
             [
-              newGestionnaire.nom,
-              newGestionnaire.prenom,
-              newGestionnaire.age,
-              resultid[0].id_co,
-              GestionnaireId,
+              req.body.nom_ge + "" + req.body.prenom_ge,
+              req.body.motdepasse_ge,
+              req.body.email_ge,
+              residcoge[0].id_co_ge,
             ],
-            (err, result) => {
+            (err, resultcompte) => {
               if (err) {
-                console.error("erreur creer gestionnaire" + err);
-                return res.status(500).send("erreur sql ajouter gestionnaire");
+                console.error("erreur update gestionnaire" + err);
+                return res.status(500).send("erreur sql update gestionnaire");
               }
-
-              // console.log("joueur modifie")
-              //  console.log("compte modifier")
             }
           );
         }
@@ -245,7 +225,7 @@ exports.editpostGestio = async (req, res) => {
 
   await req.flash("info", "Gestionnaire Modifié !!");
 
-  res.redirect(`/gererGestionnaire/${userId}`);
+  res.redirect(`/gererGestionnaire`);
 };
 // --------------------------------------------------------------------------------------------
 // la partie gestion des Arbitres
@@ -410,39 +390,45 @@ exports.postArbitres = async (req, res) => {
 };
 // put edit arbitre
 exports.editpostArbitres = async (req, res) => {
-  
-  
+  // console.log(req.params.id);
 
-
-
-// console.log(req.params.id);
-
-  db.query("UPDATE arbitre SET nom_ar =?,prenom_ar =? WHERE id_ar=?",[req.body.nom_ar,req.body.prenom_ar,req.params.id],(err, result) => {
-    if (err) {
-      console.error("erreur update arbitre" + err);
-      return res.status(500).send("erreur sql update arbitre");
-    }
-    db.query("SELECT id_co_ar FROM arbitre WHERE id_ar=? ",[req.params.id],(err,residcoar)=>{
-      if(err){
+  db.query(
+    "UPDATE arbitre SET nom_ar =?,prenom_ar =? WHERE id_ar=?",
+    [req.body.nom_ar, req.body.prenom_ar, req.params.id],
+    (err, result) => {
+      if (err) {
         console.error("erreur update arbitre" + err);
         return res.status(500).send("erreur sql update arbitre");
       }
-      // console.log(residcoar);
-        db.query("UPDATE compte SET nom_utilisateur=?,mot_de_passe=?,email_co=? WHERE id_co=?",[req.body.nom_ar+""+req.body.prenom_ar,req.body.motdepasse_ar,req.body.email_ar,residcoar[0].id_co_ar],(err,resultcompte)=>{
-          if(err){
+      db.query(
+        "SELECT id_co_ar FROM arbitre WHERE id_ar=? ",
+        [req.params.id],
+        (err, residcoar) => {
+          if (err) {
             console.error("erreur update arbitre" + err);
             return res.status(500).send("erreur sql update arbitre");
           }
-        })
-        
-      
-    })
-    
-    
-    
-  })
-  
- 
+          // console.log(residcoar);
+          db.query(
+            "UPDATE compte SET nom_utilisateur=?,mot_de_passe=?,email_co=? WHERE id_co=?",
+            [
+              req.body.nom_ar + "" + req.body.prenom_ar,
+              req.body.motdepasse_ar,
+              req.body.email_ar,
+              residcoar[0].id_co_ar,
+            ],
+            (err, resultcompte) => {
+              if (err) {
+                console.error("erreur update arbitre" + err);
+                return res.status(500).send("erreur sql update arbitre");
+              }
+            }
+          );
+        }
+      );
+    }
+  );
+
   await req.flash("info", "Arbitre Modifié !!");
 
   res.redirect(`/gererArbitres/`);
@@ -596,37 +582,30 @@ exports.supprimerStades = async (req, res) => {
   await req.flash("info", "Stades Supprime !!");
   res.redirect(`/gererStades/`);
 };
-// put edit arbitre
+// put edit Stades
 exports.editpostStades = async (req, res) => {
-  StadeId = req.params.id;
-  userId = req.params.idadmin;
-  const newStade = new Stades({
-    nom_std: req.body.nom,
-    ville_std: req.body.ville,
-    capacite_std: req.body.capacite,
-    date_crt: req.body.date_de_creation,
-  });
+  //console.log(req.params.id);
+
   db.query(
-    "UPDATE stades SET nom_std=?, ville_std=?, capacite_std=?,date_crt=? WHERE id_std=?",
+    "UPDATE stade SET nom_std =?,ville_std =?,capacite_std=?,date_crt=? WHERE id_std=?",
     [
-      newStade.nom,
-      newStade.ville,
-      newStade.capacite,
-      newStade.date_de_creation,
-      StadeId,
+      req.body.nom_stade,
+      req.body.ville_stade,
+      req.body.capacite_stade,
+      req.body.date_de_creation_stade,
+      req.params.id,
     ],
     (err, result) => {
       if (err) {
-        console.error("erreur creer stade" + err);
-        return res.status(500).send("erreur sql ajouter stade");
+        console.error("erreur update stade" + err);
+        return res.status(500).send("erreur sql update stade");
       }
-
-      // console.log("arbitre modifie")
-      //  console.log("compte modifier")
     }
   );
+
   await req.flash("info", "Stade Modifié !!");
-  res.redirect(`/gererStades/${userId}`);
+
+  res.redirect(`/gererStades`);
 };
 
 // la partie gestion des articles
@@ -779,8 +758,334 @@ exports.supprimerArticles = async (req, res) => {
 };
 // put edit arbitre
 exports.editpostArticles = async (req, res) => {
-  ArticleId = req.params.id;
-  userId = req.params.idadmin;
+  //console.log(req.params.id);
+
+  db.query(
+    "UPDATE article SET titre_art =?,description_art =?,date_art=?,format_art=?,auteur_art=? WHERE id_art=?",
+    [
+      req.body.titre_article,
+      req.body.description_article,
+      req.body.date_article,
+      req.body.format_article,
+      req.body.auteur_article,
+      req.params.id,
+    ],
+    (err, result) => {
+      if (err) {
+        console.error("erreur update article" + err);
+        return res.status(500).send("erreur sql update article");
+      }
+    }
+  );
+
+  await req.flash("info", "Article Modifié !!");
+
+  res.redirect(`/gererArticles`);
+};
+
+// la partie gestion des matches
+class Matches {
+  constructor({
+    date_ma,
+    horaire_ma,
+    equipe_1,
+    score_eq1,
+    equipe_2,
+    score_eq2,
+    carton_j_ma,
+    carton_r_ma,
+    homme_ma,
+    id_ge_ma,
+    id_std_ma,
+    id_journee_ma,
+  }) {
+    this.date_ma = date_ma;
+    this.horaire_ma = horaire_ma;
+    this.equipe_1 = equipe_1;
+    this.score_eq1 = score_eq1;
+    this.equipe_2 = equipe_2;
+    this.score_eq2 = score_eq2;
+    this.carton_j_ma = carton_j_ma;
+    this.carton_r_ma = carton_r_ma;
+    this.homme_ma = homme_ma;
+    this.id_ge_ma = id_ge_ma;
+    this.id_std_ma = id_std_ma;
+    this.id_journee_ma = id_journee_ma;
+  }
+}
+exports.viewMatches = async (req, res) => {
+  const MatchId = req.params.id; // Récupère l'ID du match depuis l'URL
+  const locals = {
+    title: "Voir Détails",
+  };
+  // Exécute une requête SQL pour récupérer les détails du match avec l'ID spécifié
+  db.query(
+    "SELECT id_ma, date_ma, horaire_ma, equipe_1, score_eq1, equipe_2, score_eq2, carton_j_ma, carton_r_ma, homme_ma, id_ge_ma, id_std_ma, id_journee_ma FROM `match` WHERE id_ma = ?;",
+    [MatchId],
+    (err, result) => {
+      if (err) {
+        console.error("erreur sql id match" + err);
+        return res.status(500).send("erreur sql id match");
+      }
+      //console.log("Query result:", result); // Log the query result
+      if (result.length === 0) {
+        return res.status(404).send("Aucun match trouvé avec cet ID");
+      }
+      const id = result[0].id_art;
+      res.render("../views/Admin/Matches/detailsMatches", {
+        locals,
+        id,
+        result,
+        layout: "./layouts/mainAdmin.ejs",
+      }); // Rend la vue avec les détails du match
+    }
+  );
+};
+exports.gererMatches = async (req, res) => {
+  const messages = await req.flash("info");
+  const locals = {
+    title: "Gestion des Matches",
+  };
+  db.query(
+    "SELECT id_ma, equipe_1, equipe_2, date_ma FROM `match`;",
+    (err, result) => {
+      if (err) {
+        console.error("erreur sql select data matches: " + err);
+        return res.status(500).send("erreur sql select data matches");
+      }
+
+      //console.log("Query result:", result);
+
+      if (!result || result.length === 0) {
+        return res
+          .status(404)
+          .send("Aucun match trouvé dans la base de données");
+      }
+
+      res.render("MatchesIndex", {
+        locals,
+        messages,
+        result,
+        layout: "./layouts/mainAdmin.ejs",
+      });
+    }
+  );
+};
+exports.editMatches = async (req, res) => {
+  const MatchId = req.params.id;
+  db.query(
+    "SELECT id_ma, date_ma, horaire_ma, equipe_1, score_eq1, equipe_2, score_eq2, carton_j_ma, carton_r_ma, homme_ma FROM `match` WHERE id_ma = ?;",
+    [MatchId],
+    (err, result) => {
+      if (err) {
+        console.error("erreur sql select data matches  " + err);
+        return res.status(500).send("erreur sql select data matches");
+      }
+      res.render("../views/Admin/Matches/modifierMatches", {
+        result,
+        MatchId,
+        layout: "./layouts/mainAdmin.ejs",
+      });
+    }
+  );
+};
+
+//get nouveau Matches
+exports.addMatches = async (req, res) => {
+  const locals = {
+    title: "Ajouter un Match",
+  };
+  res.render("../views/Admin/Matches/addMatches", {
+    locals,
+    layout: "./layouts/mainAdmin.ejs",
+  });
+};
+
+exports.postMatches = async (req, res) => {
+  const newMatch = new Matches({
+    equipe_1: req.body.equipe_1_match,
+    score_eq1: req.body.score_equipe_1_match,
+    equipe_2: req.body.equipe_2_match,
+    score_eq2: req.body.score_equipe_2_match,
+    date_ma: req.body.date_ma_match,
+    carton_j_ma: req.body.carton_j_ma_match,
+    carton_r_ma: req.body.carton_r_ma_match,
+    homme_ma: req.body.homme_ma_match,
+  });
+
+  db.query(
+    "INSERT INTO `match` (equipe_1, score_eq1, equipe_2, score_eq2,date_ma,carton_j_ma,carton_r_ma,homme_ma) VALUES (?, ?,?,?,?,?,?,?)",
+    [
+      newMatch.equipe_1,
+      newMatch.score_eq1,
+      newMatch.equipe_2,
+      newMatch.score_eq2,
+      newMatch.date_ma,
+      newMatch.carton_j_ma,
+      newMatch.carton_r_ma,
+      newMatch.homme_ma,
+    ],
+    (err, result) => {
+      if (err) {
+        console.error("Erreur lors de l'insertion du match :", err);
+        return res.status(500).send("Erreur lors de l'insertion du match");
+      }
+      console.log("Nouveau match inséré avec l'ID :", result.insertId);
+      req.flash("info", "Match ajouté avec succès !");
+      res.redirect("/gererMatches");
+    }
+  );
+};
+
+exports.supprimerMatches = async (req, res) => {
+  db.query(
+    "DELETE FROM match WHERE id_ma= ?",
+    [req.params.id],
+    (err, result) => {
+      if (err) {
+        console.error("erreur supprimer match" + err);
+        return res.status(500).send("erreur sql supprimer match");
+      }
+    }
+  );
+  await req.flash("info", "Match Supprime !!");
+  res.redirect(`/gererMatches/`);
+};
+// put edit match
+exports.editpostMatches = async (req, res) => {
+  //console.log(req.params.id);
+
+  db.query(
+    "UPDATE `match` SET equipe_1 =?,score_eq1 =?,equipe_2=?,score_eq2=?,date_ma=?,carton_j_ma=?,carton_r_ma=?,homme_ma=? WHERE id_ma=?",
+    [
+      req.body.equipe_1_match,
+      req.body.score_equipe_1_match,
+      req.body.equipe_2_match,
+      req.body.score_equipe_2_match,
+      req.body.date_ma_match,
+      req.body.carton_j_ma_match,
+      req.body.carton_r_ma_match,
+      req.body.homme_ma_match,
+      req.params.id,
+    ],
+    (err, result) => {
+      if (err) {
+        console.error("erreur update match" + err);
+        return res.status(500).send("erreur sql update match");
+      }
+    }
+  );
+
+  await req.flash("info", "Match Modifié !!");
+
+  res.redirect(`/gererMatches`);
+};
+
+//la partie gestion des equipes
+class Equipes {
+  constructor({
+    date_art,
+    titre_art,
+    description_art,
+    format_art,
+    auteur_art,
+  }) {
+    this.date_art = date_art;
+    this.titre_art = titre_art;
+    this.description_art = description_art;
+    this.format_art = format_art;
+    this.auteur_art = auteur_art;
+  }
+}
+exports.viewArticles = async (req, res) => {
+  const ArticleId = req.params.id; // Récupère l'ID de l'article depuis l'URL
+  const locals = {
+    title: "Voir Détails",
+  };
+  // Exécute une requête SQL pour récupérer les détails de l'article avec l'ID spécifié
+  db.query(
+    "SELECT id_art, date_art, titre_art, description_art, format_art,auteur_art FROM article WHERE id_art = ?;",
+    [ArticleId],
+    (err, result) => {
+      if (err) {
+        console.error("erreur sql id article" + err);
+        return res.status(500).send("erreur sql id article");
+      }
+      //console.log("Query result:", result); // Log the query result
+      if (result.length === 0) {
+        return res.status(404).send("Aucun article trouvé avec cet ID");
+      }
+      const id = result[0].id_art;
+      res.render("../views/Admin/Articles/detailsArticles", {
+        locals,
+        id,
+        result,
+        layout: "./layouts/mainAdmin.ejs",
+      }); // Rend la vue avec les détails de l'article
+    }
+  );
+};
+exports.gererArticles = async (req, res) => {
+  const messages = await req.flash("info");
+  const locals = {
+    title: "Gestion des Articles",
+  };
+  db.query(
+    "SELECT id_art,titre_art,auteur_art FROM article;",
+    (err, result) => {
+      if (err) {
+        console.error("erreur sql select data articles: " + err);
+        return res.status(500).send("erreur sql select data articles");
+      }
+
+      //console.log("Query result:", result);
+
+      if (!result || result.length === 0) {
+        return res
+          .status(404)
+          .send("Aucun article trouvé dans la base de données");
+      }
+
+      res.render("ArticlesIndex", {
+        locals,
+        messages,
+        result,
+        layout: "./layouts/mainAdmin.ejs",
+      });
+    }
+  );
+};
+exports.editArticles = async (req, res) => {
+  const ArticleId = req.params.id;
+  db.query(
+    "SELECT id_art, date_art, titre_art, description_art, format_art,auteur_art FROM article where id_art=?",
+    [ArticleId],
+    (err, result) => {
+      if (err) {
+        console.error("erreur sql select data stades  " + err);
+        return res.status(500).send("erreur sql select data stades");
+      }
+      res.render("../views/Admin/Articles/modifierArticles", {
+        result,
+        ArticleId,
+        layout: "./layouts/mainAdmin.ejs",
+      });
+    }
+  );
+};
+
+//get nouveau Articles
+exports.addArticles = async (req, res) => {
+  const locals = {
+    title: "Ajouter un Article",
+  };
+  res.render("../views/Admin/Articles/addArticles", {
+    locals,
+    layout: "./layouts/mainAdmin.ejs",
+  });
+};
+
+exports.postArticles = async (req, res) => {
   const newArticle = new Articles({
     titre_art: req.body.titre,
     description_art: req.body.description,
@@ -788,27 +1093,67 @@ exports.editpostArticles = async (req, res) => {
     date_art: req.body.date,
     auteur_art: req.body.auteur,
   });
+
   db.query(
-    "UPDATE article SET titre_art=?, description_art=?, format_art=?,date_art=?,auteur_art=? WHERE id_art=?",
+    "INSERT INTO article (titre_art, description_art, format_art, date_art,auteur_art) VALUES (?, ?,?,?,?)",
     [
-      newArticle.titre,
-      newArticle.description,
-      newArticle.format,
-      newArticle.date,
-      newArticle.auteur,
-      ArticleId,
+      newArticle.titre_art,
+      newArticle.description_art,
+      newArticle.format_art,
+      newArticle.date_art,
+      newArticle.auteur_art,
     ],
     (err, result) => {
       if (err) {
-        console.error("erreur creer article" + err);
-        return res.status(500).send("erreur sql ajouter article");
+        console.error("Erreur lors de l'insertion de l'article :", err);
+        return res.status(500).send("Erreur lors de l'insertion de l'article");
       }
-
-      // console.log("article modifie")
+      console.log("Nouveau article inséré avec l'ID :", result.insertId);
+      req.flash("info", "Article ajouté avec succès !");
+      res.redirect("/gererArticles");
     }
   );
+};
+
+exports.supprimerArticles = async (req, res) => {
+  db.query(
+    "DELETE FROM article WHERE id_art= ?",
+    [req.params.id],
+    (err, result) => {
+      if (err) {
+        console.error("erreur supprimer article" + err);
+        return res.status(500).send("erreur sql supprimer article");
+      }
+    }
+  );
+  await req.flash("info", "Article Supprime !!");
+  res.redirect(`/gererArticles/`);
+};
+// put edit arbitre
+exports.editpostArticles = async (req, res) => {
+  //console.log(req.params.id);
+
+  db.query(
+    "UPDATE article SET titre_art =?,description_art =?,date_art=?,format_art=?,auteur_art=? WHERE id_art=?",
+    [
+      req.body.titre_article,
+      req.body.description_article,
+      req.body.date_article,
+      req.body.format_article,
+      req.body.auteur_article,
+      req.params.id,
+    ],
+    (err, result) => {
+      if (err) {
+        console.error("erreur update article" + err);
+        return res.status(500).send("erreur sql update article");
+      }
+    }
+  );
+
   await req.flash("info", "Article Modifié !!");
-  res.redirect(`/gererArticles/${userId}`);
+
+  res.redirect(`/gererArticles`);
 };
 
 //-----------------------------------------------------------------------------------------------------------------------

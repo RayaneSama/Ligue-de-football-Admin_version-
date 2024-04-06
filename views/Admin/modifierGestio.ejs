@@ -29,20 +29,20 @@
     <div class="row form-group mb-4">
         <div>
             <label for="validationCustom01" class="form-label">Nom</label>
-            <input type="text" class="form-control" name="nom" id="validationCustom01" value="<%= result[0].nom %>"
+            <input type="text" class="form-control" name="nom_ge" id="validationCustom01" value="<%= result[0].nom %>"
                 required>
             <div class="valid-feedback"></div>
         </div>
         <div>
             <label for="validationCustom02" class="form-label">Prenom</label>
-            <input type="text" class="form-control" name="prenom" id="validationCustom02" value="<%= result[0].prenom%>"
+            <input type="text" class="form-control" name="prenom_ge" id="validationCustom02" value="<%= result[0].prenom%>"
                 required>
             <div class="valid-feedback"></div>
         </div>
 
         <div>
             <label for="validationCustom01" class="form-label">Age</label>
-            <input type="text" class="form-control" name="age" pattern="[0-9]{2}" id="validationCustom01"
+            <input type="text" class="form-control" name="age_ge" pattern="[0-9]{2}" id="validationCustom01"
                 value="<%= result[0].age %>" required>
             <div class="valid-feedback"></div>
         </div>
@@ -54,13 +54,13 @@
 
             <div>
                 <label for="validationCustom01" class="form-label">E-mail</label>
-                <input type="email" class="form-control" name="email" value="<%= result[0].email_co %>" required>
+                <input type="email" class="form-control" name="email_ge" value="<%= result[0].email_co %>" required>
                 <div class="valid-feedback"></div>
             </div>
             <div>
                 <label for="validationCustom01" class="form-label">Mot de passe </label>
                 <div class="input-group">
-                    <input type="password" class="form-control" name="motdepasse" id="password"
+                    <input type="password" class="form-control" name="motdepasse_ge" id="password"
                         value="<%= result[0].mot_de_passe %>" required>
                     <span class="input-group-text"><i id="icon" class="bi bi-eye-fill "></i></span>
                 </div>

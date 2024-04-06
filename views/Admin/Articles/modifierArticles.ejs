@@ -23,36 +23,36 @@
 </div>
 
 
-<form action="/edit/<%= result[0].id_art %>?_method=PUT" method="POST">
+<form action="/editArticles/<%= result[0].id_art %>?_method=PUT" method="POST">
 
     <div class="row form-group mb-4">
         <div>
             <label for="validationCustom01" class="form-label">Titre</label>
-            <input type="text" class="form-control" name="titre" id="validationCustom01" value="<%= result[0].titre_art %>"
+            <input type="text" class="form-control" name="titre_article" id="validationCustom01" value="<%= result[0].titre_art %>"
                 required>
             <div class="valid-feedback"></div>
         </div>
         <div>
             <label for="validationCustom02" class="form-label">Description</label>
-            <input type="text" class="form-control" name="description" id="validationCustom02" value="<%= result[0].description_art%>"
+            <input type="text" class="form-control" name="description_article" id="validationCustom02" value="<%= result[0].description_art%>"
                 required>
             <div class="valid-feedback"></div>
         </div>
         <div>
             <label for="validationCustom02" class="form-label">Date</label>
-            <input type="text" class="form-control" name="date" id="validationCustom02" value="<%= result[0].date_art%>"
+            <input type="text" class="form-control" name="date_article" id="validationCustom02" value="<%= result[0].date_art%>"
                 required>
             <div class="valid-feedback"></div>
         </div>
         <div>
             <label for="validationCustom02" class="form-label">Format</label>
-            <input type="text" class="form-control" name="format" id="validationCustom02" value="<%= result[0].format_art%>"
+            <input type="text" class="form-control" name="format_article" id="validationCustom02" value="<%= result[0].format_art%>"
                 required>
             <div class="valid-feedback"></div>
         </div>
         <div>
             <label for="validationCustom02" class="form-label">Auteur</label>
-            <input type="text" class="form-control" name="auteur" id="validationCustom02" value="<%= result[0].auteur_art%>"
+            <input type="text" class="form-control" name="auteur_article" id="validationCustom02" value="<%= result[0].auteur_art%>"
                 required>
             <div class="valid-feedback"></div>
         </div>
